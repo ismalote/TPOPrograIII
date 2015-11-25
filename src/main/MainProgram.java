@@ -6,11 +6,10 @@ import java.util.Scanner;
 
 import Implementaciones.*;
 import TDA.*;
-
 import algoritmos.*;
 
 public class MainProgram {
-
+	
 	public static void main(String[] args) {
 		MainProgram main = new MainProgram();
 		main.mostrarLogo();
@@ -45,7 +44,8 @@ public class MainProgram {
 		System.out.println("------------------------------------------------------------");
 		System.out.println("1.- Algoritmo de Floyd: implementacion de backtracking");
 		System.out.println("2.- Algoritmo de Floyd: implementacion dinamica");
-		System.out.println("3.- Algoritmo del Viajante: implementacion por fuerza bruta");
+		System.out.println("3.- Algoritmo de Floyd: implementacion dinamica con matrices");
+		System.out.println("4.- Algoritmo del Viajante: implementacion por fuerza bruta");
 		System.out.println("Q.- Salir");
 		System.out.println("------------------------------------------------------------");
 		System.out.print("Opcion: ");
@@ -64,6 +64,10 @@ public class MainProgram {
 			  		break;
 			  	}
 			  	case '3' : {
+			  		this.algoritmoFloydDinamicaMatriz();
+			  		break;
+			  	}
+			  	case '4' : {
 			  		this.algoritmoViajante();
 			  		break;
 			  	}
@@ -72,11 +76,6 @@ public class MainProgram {
 			  		this.salir();
 			  		break;
 			  	}
-			  	/*case ((char) 13): 
-			  	case ((char) 10): {
-			  		// EVITAR QUE IMPRIMA 2 VECES EL MENU
-			  		break;
-			  	}*/
 			  	default: {
 			  		this.mostrarOpciones();
 			  		break;
@@ -107,7 +106,7 @@ public class MainProgram {
 		// FALTA IMPRIMIR EL RESULTADO
 		
 		
-        this.presioneUnaTeclaCualquiera();		
+        this.volver();		
 	}
 	
 	private void algoritmoFloydDinamica() {
@@ -127,7 +126,35 @@ public class MainProgram {
 		
 		// FALTA IMPRIMIR EL RESULTADO
 		
-        this.presioneUnaTeclaCualquiera();		
+        this.volver();		
+	}
+	
+	private void algoritmoFloydDinamicaMatriz() {
+		
+		System.out.println();
+		System.out.println("Algoritmo de Floyd: implementacion dinamica con matrices");
+		System.out.println("------------------------------------------------------------");
+		System.out.println("Matriz de ejemplo:");
+		System.out.println("      10");
+		System.out.println(" (0)------->(3)");
+		System.out.println("  |         /|\\");
+		System.out.println("5 |          |");
+		System.out.println("  |          | 1");
+		System.out.println(" \\|/         |");
+		System.out.println(" (1)------->(2)");
+		System.out.println("       3");
+		System.out.println("------------------------------------------------------------");
+		
+		
+	     int grafo[][] = { {0,   5,  FloydDinamica.INF, 10},
+	                       {FloydDinamica.INF, 0,   3, FloydDinamica.INF},
+	                       {FloydDinamica.INF, FloydDinamica.INF, 0,   1},
+	                       {FloydDinamica.INF, FloydDinamica.INF, FloydDinamica.INF, 0}
+	                     };
+	     
+	     FloydDinamica.floydMatrices(grafo);
+	     
+	     this.volver();
 	}
 	
 	private void algoritmoViajante() {
@@ -147,10 +174,10 @@ public class MainProgram {
         
         ViajeroFuerzaBruta.encontrarMejorRuta(ruta, lista);
        
-        this.presioneUnaTeclaCualquiera();
+        this.volver();
 	}
 	
-	private void presioneUnaTeclaCualquiera()
+	private void volver()
 	{ 
 		System.out.println();
         System.out.println("Presione Q para volver al menu principal...");
@@ -171,7 +198,7 @@ public class MainProgram {
 		  			break;
 		  		}
 		  		default:
-		  			this.presioneUnaTeclaCualquiera();
+		  			this.volver();
 		  			break;
 		  	}
         }  
