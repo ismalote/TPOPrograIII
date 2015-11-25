@@ -119,10 +119,12 @@ public class MainProgram {
 		int destino = 1;
 		int escalas = 4;
 		
-		int caminoMasCorto = FloydBacktracking.floyd(grafo, origen, destino, escalas);
+		//int caminoMasCorto = FloydBacktracking.floyd(grafo, origen, destino, escalas);
+		GrafoTDA<Integer> caminoMasCorto = FloydBacktracking.calcularFloyd(grafo);
 		
-		System.out.printf("El camino mas corto entre el vertice %d y el vertice %d es %d.\n", 
-							origen, destino, caminoMasCorto);
+		int i = 1;
+//		System.out.printf("El camino mas corto entre el vertice %d y el vertice %d es %d.\n", 
+	//						origen, destino, caminoMasCorto);
 		
         this.volver();		
 	}

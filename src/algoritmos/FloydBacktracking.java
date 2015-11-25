@@ -1,7 +1,9 @@
 package algoritmos;
 
+import TDA.ConjuntoTDA;
 import TDA.GrafoTDA;
-
+import Implementaciones.*;
+/*
 public final class FloydBacktracking {
 
 	public static int INF = 99999;
@@ -34,4 +36,51 @@ public final class FloydBacktracking {
 		
 		return res;
 	}
+}
+*/
+
+public final class FloydBacktracking{
+    public FloydBacktracking() { }
+    public static GrafoTDA<Integer> calcularFloyd(GrafoTDA<Integer> G){
+        GrafoTDA<Integer> grafoSalida = new Grafo<Integer>();
+        grafoSalida.InicializarGrafo();
+        ConjuntoTDA<Integer> vertices1 = G.Vertices();
+        ConjuntoTDA<Integer> vertices2 = G.Vertices();
+        ConjuntoTDA<Integer> vertices3 = G.Vertices();
+        while (!vertices1.conjuntoVacio()){
+            Integer Ori = vertices1.elegir();
+            grafoSalida.AgregarVertice(Ori);
+            while (!vertices2.conjuntoVacio()){
+                Integer Dest = vertices2.elegir();
+                if (Ori != Dest){
+                    ConjuntoTDA<Integer> escala = new Conjunto<Integer>();
+                    escala.inicializarConjunto();
+                    while (!vertices3.conjuntoVacio()){
+                        Integer vertice3 = vertices3.elegir();
+                        if (vertice3 != Ori && vertice3 != Dest){
+                            escala.agregar(vertice3);
+                        }
+                        vertices3.sacar(vertice3);
+                    }
+                    grafoSalida.AgregarArista(Ori, Dest, (int)caminoMin(Ori, Dest, escala, G));
+                } vertices2.sacar(Dest);
+            } vertices1.sacar(Ori);
+        }
+        return grafoSalida;
+    }
+
+    private static Integer caminoMin(Integer Ori, Integer Dest, ConjuntoTDA<Integer> escala, GrafoTDA<Integer> G){
+        Integer peso;
+        if (escala.conjuntoVacio()){
+            peso = Integer.MAX_VALUE;
+            if (G.ExisteArista(Ori, Dest) && peso > G.PesoArista(Ori, Dest)){
+                peso = G.PesoArista(Ori, Dest);
+            }
+        } else {
+            int valor = escala.elegir();
+            escala.sacar(valor);
+            peso = Math.min(caminoMin(Ori, Dest, escala, G), caminoMin(Ori, valor, escala, G) + caminoMin(valor, Dest, escala, G));
+        }
+        return peso;
+    }
 }
