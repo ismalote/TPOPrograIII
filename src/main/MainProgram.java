@@ -93,18 +93,36 @@ public class MainProgram {
 		System.out.println();
 		System.out.println("Algoritmo de Floyd: implementacion de backtracking");
 		System.out.println("------------------------------------------------------------");
-		System.out.println("<EJEMPLO>");
+		System.out.println("Grafo de ejemplo:");
+		System.out.println("      10");
+		System.out.println(" (0)------->(3)");
+		System.out.println("  |         /|\\");
+		System.out.println("5 |          |");
+		System.out.println("  |          | 1");
+		System.out.println(" \\|/         |");
+		System.out.println(" (1)------->(2)");
+		System.out.println("       3");
 		System.out.println("------------------------------------------------------------");
-		
-		
-		// FALTA ARMAR EL METODO EN LA CLASE YA PREPARADA
-		
-		
-		// FALTA ARMAR EL EJEMPLO
+				
+		GrafoTDA<Integer> grafo = new Grafo<Integer>();
+		grafo.InicializarGrafo();
+		grafo.AgregarVertice(0);
+		grafo.AgregarVertice(1);
+		grafo.AgregarVertice(2);
+		grafo.AgregarVertice(3);
+		grafo.AgregarArista(0, 1, 5);
+		grafo.AgregarArista(1, 2, 3);
+		grafo.AgregarArista(2, 3, 1);
+		grafo.AgregarArista(0, 3, 10);
         
+		int origen = 0;
+		int destino = 1;
+		int escalas = 4;
 		
-		// FALTA IMPRIMIR EL RESULTADO
+		int caminoMasCorto = FloydBacktracking.floyd(grafo, origen, destino, escalas);
 		
+		System.out.printf("El camino mas corto entre el vertice %d y el vertice %d es %d.\n", 
+							origen, destino, caminoMasCorto);
 		
         this.volver();		
 	}
@@ -134,7 +152,7 @@ public class MainProgram {
 		System.out.println();
 		System.out.println("Algoritmo de Floyd: implementacion dinamica con matrices");
 		System.out.println("------------------------------------------------------------");
-		System.out.println("Matriz de ejemplo:");
+		System.out.println("Grafo de ejemplo:");
 		System.out.println("      10");
 		System.out.println(" (0)------->(3)");
 		System.out.println("  |         /|\\");
