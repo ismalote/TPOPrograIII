@@ -116,15 +116,16 @@ public class MainProgram {
 		grafo.AgregarArista(0, 3, 10);
         
 		int origen = 0;
-		int destino = 1;
+		int destino = 2;
 		int escalas = 4;
 		
-		//int caminoMasCorto = FloydBacktracking.floyd(grafo, origen, destino, escalas);
-		GrafoTDA<Integer> caminoMasCorto = FloydBacktracking.calcularFloyd(grafo);
+		int caminoMasCorto = FloydBacktracking.floyd(grafo, origen, destino, escalas);
 		
-		int i = 1;
-//		System.out.printf("El camino mas corto entre el vertice %d y el vertice %d es %d.\n", 
-	//						origen, destino, caminoMasCorto);
+		//GrafoTDA<Integer> caminoMasCorto = FloydBacktracking.calcularFloyd(grafo);
+		
+		//int i = 1;
+		System.out.printf("El camino mas corto entre el vertice %d y el vertice %d es %d.\n", 
+							origen, destino, caminoMasCorto);
 		
         this.volver();		
 	}

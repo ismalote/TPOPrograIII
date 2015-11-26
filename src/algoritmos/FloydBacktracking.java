@@ -3,7 +3,7 @@ package algoritmos;
 import TDA.ConjuntoTDA;
 import TDA.GrafoTDA;
 import Implementaciones.*;
-/*
+
 public final class FloydBacktracking {
 
 	public static int INF = 99999;
@@ -18,27 +18,69 @@ public final class FloydBacktracking {
 			res = INF;
 		}
 		else {
-			while (!grafo.Vertices().conjuntoVacio()) {
-		
+			for (int e = escala; e > 0; e--) {
+						
+				// METODO 1: SIN COPIAR EL CONJUNTO.
 				int medio;
 				
 				do {
 					medio = grafo.Vertices().elegir();
 					grafo.Vertices().sacar(medio);
-					grafo.EliminarVertice(medio);
-				}
-				while (medio == origen || medio == destino);
+				} while (!grafo.Vertices().conjuntoVacio() && (medio == origen || medio == destino));
 				
-				res = Math.min(floyd(grafo, origen, destino, escala - 1), 
-					floyd(grafo, origen, medio, escala - 1) + floyd(grafo, medio, destino, escala - 1));
+				
+				res = Math.min(floyd(grafo, origen, destino, e - 1), 
+						floyd(grafo, origen, medio, e - 1) + floyd(grafo, medio, destino, e - 1));
+								
+				// METODO 2: COPIANDO EL CONJUNTO.
+				/*ConjuntoTDA<Integer> vert = new Conjunto<Integer>();
+				vert.inicializarConjunto();
+				CopiarConjunto(grafo.Vertices(), vert);
+				
+				int medio;
+				
+				do {
+					medio = vert.elegir();
+					vert.sacar(medio);
+				} while (!vert.conjuntoVacio() && (medio == origen || medio == destino));
+				
+				
+				// Separe las llamadas para que sea mas facil al debuggear.
+				int llam1 = floyd(grafo, origen, destino, e - 1); 
+				int llam2 =	floyd(grafo, origen, medio, e - 1) + floyd(grafo, medio, destino, e - 1);
+				
+				res = Math.min(llam1, llam2);*/
 			}
 		}
 		
 		return res;
 	}
-}
-*/
 
+	private static void CopiarConjunto(ConjuntoTDA<Integer> orig, ConjuntoTDA<Integer> dest){
+		int x;
+		
+		ConjuntoTDA<Integer> aux = new Conjunto<Integer>();
+		aux.inicializarConjunto();
+		
+		while(!orig.conjuntoVacio()){
+			x = orig.elegir();
+			orig.sacar(x);
+			aux.agregar(x);
+		}
+		
+		while(!aux.conjuntoVacio()){
+			x = aux.elegir();
+			aux.sacar(x);
+			orig.agregar(x);
+			dest.agregar(x);
+		}
+	}
+}
+
+
+
+
+/*
 public final class FloydBacktracking{
     public FloydBacktracking() { }
     public static GrafoTDA<Integer> calcularFloyd(GrafoTDA<Integer> G){
@@ -84,3 +126,4 @@ public final class FloydBacktracking{
         return peso;
     }
 }
+*/
