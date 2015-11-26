@@ -8,8 +8,56 @@ public final class FloydBacktracking {
 
 	public static int INF = 99999;
 	
+//	public static int floyd(GrafoTDA<Integer> grafo, int origen, int destino, int escala) {
+//		int res = 0;
+//		
+//		if (escala == 0 && grafo.ExisteArista(origen, destino)) {
+//			res = grafo.PesoArista(origen, destino);
+//		}
+//		else if (escala == 0 && !grafo.ExisteArista(origen, destino)) {
+//			res = INF;
+//		}
+//		else {
+//			for (int e = escala; e > 0; e--) {
+//						
+//				// METODO 1: SIN COPIAR EL CONJUNTO.
+//				int medio;
+//				
+//				do {
+//					medio = grafo.Vertices().elegir();
+//					grafo.Vertices().sacar(medio);
+//				} while (!grafo.Vertices().conjuntoVacio() && (medio == origen || medio == destino));
+//				
+//				
+//				res = Math.min(floyd(grafo, origen, destino, e - 1), 
+//						floyd(grafo, origen, medio, e - 1) + floyd(grafo, medio, destino, e - 1));
+//								
+//				// METODO 2: COPIANDO EL CONJUNTO.
+//				/*ConjuntoTDA<Integer> vert = new Conjunto<Integer>();
+//				vert.inicializarConjunto();
+//				CopiarConjunto(grafo.Vertices(), vert);
+//				
+//				int medio;
+//				
+//				do {
+//					medio = vert.elegir();
+//					vert.sacar(medio);
+//				} while (!vert.conjuntoVacio() && (medio == origen || medio == destino));
+//				
+//				
+//				// Separe las llamadas para que sea mas facil al debuggear.
+//				int llam1 = floyd(grafo, origen, destino, e - 1); 
+//				int llam2 =	floyd(grafo, origen, medio, e - 1) + floyd(grafo, medio, destino, e - 1);
+//				
+//				res = Math.min(llam1, llam2);*/
+//			}
+//		}
+//		
+//		return res;
+//	}
+	
 	public static int floyd(GrafoTDA<Integer> grafo, int origen, int destino, int escala) {
-		int res = 0;
+		int res = INF;
 		
 		if (escala == 0 && grafo.ExisteArista(origen, destino)) {
 			res = grafo.PesoArista(origen, destino);
@@ -18,38 +66,25 @@ public final class FloydBacktracking {
 			res = INF;
 		}
 		else {
-			for (int e = escala; e > 0; e--) {
-						
-				// METODO 1: SIN COPIAR EL CONJUNTO.
-				int medio;
+			
+			ConjuntoTDA<Integer> vert = new Conjunto<Integer>();
+			vert.inicializarConjunto();
+			CopiarConjunto(grafo.Vertices(), vert);
+			int parcial = INF;
+			int medio;
+			
+			while (!vert.conjuntoVacio()) {
+				medio = vert.elegir();
 				
-				do {
-					medio = grafo.Vertices().elegir();
-					grafo.Vertices().sacar(medio);
-				} while (!grafo.Vertices().conjuntoVacio() && (medio == origen || medio == destino));
-				
-				
-				res = Math.min(floyd(grafo, origen, destino, e - 1), 
-						floyd(grafo, origen, medio, e - 1) + floyd(grafo, medio, destino, e - 1));
-								
-				// METODO 2: COPIANDO EL CONJUNTO.
-				/*ConjuntoTDA<Integer> vert = new Conjunto<Integer>();
-				vert.inicializarConjunto();
-				CopiarConjunto(grafo.Vertices(), vert);
-				
-				int medio;
-				
-				do {
-					medio = vert.elegir();
-					vert.sacar(medio);
-				} while (!vert.conjuntoVacio() && (medio == origen || medio == destino));
-				
-				
-				// Separe las llamadas para que sea mas facil al debuggear.
-				int llam1 = floyd(grafo, origen, destino, e - 1); 
-				int llam2 =	floyd(grafo, origen, medio, e - 1) + floyd(grafo, medio, destino, e - 1);
-				
-				res = Math.min(llam1, llam2);*/
+				if(medio != origen && medio != destino){			
+					parcial = Math.min(floyd(grafo, origen, destino, escala - 1), (floyd(grafo, origen, medio, escala - 1) + floyd(grafo, medio, destino, escala - 1)));
+					
+					if(parcial < res){
+						res = parcial;
+					}
+				}
+				vert.sacar(medio);
+
 			}
 		}
 		
