@@ -63,6 +63,35 @@ public final class FloydDinamica {
 		}
 		return r;
 	}
+	
+	public static void imprimirGrafo(GrafoDirTDA<Integer> grafo, Integer verticeOrigen) {
+		Integer visitado;
+		Integer adyacente;
+		ConjuntoTDA<Integer> visitados = new Conjunto<Integer>();
+		visitados.inicializarConjunto();
+		ConjuntoTDA<Integer> adyacentes = new Conjunto<Integer>();
+		adyacentes.inicializarConjunto();
+		
+		while (!grafo.Vertices().conjuntoVacio()) {
+			visitado = verticeOrigen;
+			visitados.agregar(verticeOrigen);
+			
+			adyacentes = grafo.Adyacentes(visitado);
+			adyacente = adyacentes.elegir();
+			adyacentes.sacar(adyacente);
+			
+			if (grafo.ExisteArista(visitado, adyacente)) {			
+				System.out.print("Vertice: ");
+				System.out.println(visitado);
+				System.out.print("Peso: ");
+				System.out.println(grafo.PesoArista(visitado, adyacente));
+			}
+			
+			visitado = grafo.Vertices().elegir();
+			grafo.Vertices().sacar(visitado);
+			visitados.agregar(visitado);
+		}
+	}
 
 	public static void floydMatrices(int[][] matrizAdy) {
 

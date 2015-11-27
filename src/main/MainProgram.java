@@ -3,12 +3,18 @@ package main;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Random;
 
 import Implementaciones.*;
 import TDA.*;
 import algoritmos.*;
 
 public class MainProgram {
+	
+	public final static int RANDOM_SEED = 1234;
+	
+	public static Random random = new Random(RANDOM_SEED);
+	
 	
 	public static void main(String[] args) {
 		MainProgram main = new MainProgram();
@@ -46,6 +52,7 @@ public class MainProgram {
 		System.out.println("2.- Algoritmo de Floyd: implementacion dinamica");
 		System.out.println("3.- Algoritmo de Floyd: implementacion dinamica con matrices");
 		System.out.println("4.- Algoritmo del Viajante: implementacion por fuerza bruta");
+		System.out.println("5.- Algoritmo del Viajante: implementacion por fuerza bruta (otro)");
 		System.out.println("Q.- Salir");
 		System.out.println("------------------------------------------------------------");
 		System.out.print("Opcion: ");
@@ -69,6 +76,10 @@ public class MainProgram {
 			  	}
 			  	case '4' : {
 			  		this.algoritmoViajante();
+			  		break;
+			  	}
+			  	case '5' : {
+			  		this.algoritmoViajanteOtro();
 			  		break;
 			  	}
 			  	case 'Q': 
@@ -116,14 +127,11 @@ public class MainProgram {
 		grafo.AgregarArista(0, 3, 10);
         
 		int origen = 0;
-		int destino = 2;
+		int destino = 3;
 		int escalas = 4;
 		
 		int caminoMasCorto = FloydBacktracking.floyd(grafo, origen, destino, escalas);
 		
-		//GrafoTDA<Integer> caminoMasCorto = FloydBacktracking.calcularFloyd(grafo);
-		
-		//int i = 1;
 		System.out.printf("El camino mas corto entre el vertice %d y el vertice %d es %d.\n", 
 							origen, destino, caminoMasCorto);
 		
@@ -135,17 +143,35 @@ public class MainProgram {
 		System.out.println();
 		System.out.println("Algoritmo de Floyd: implementacion dinamica");
 		System.out.println("------------------------------------------------------------");
-		System.out.println("<EJEMPLO>");
+		System.out.println("Grafo de ejemplo:");
+		System.out.println("      10");
+		System.out.println(" (0)------->(3)");
+		System.out.println("  |         /|\\");
+		System.out.println("5 |          |");
+		System.out.println("  |          | 1");
+		System.out.println(" \\|/         |");
+		System.out.println(" (1)------->(2)");
+		System.out.println("       3");
 		System.out.println("------------------------------------------------------------");
 		
 		
 		GrafoDirTDA<Integer> grafo = new GrafoDir<Integer>();
-		
-		// FALTA ARMAR EL EJEMPLO
+
+		grafo.InicializarGrafo();
+		grafo.AgregarVertice(0);
+		grafo.AgregarVertice(1);
+		grafo.AgregarVertice(2);
+		grafo.AgregarVertice(3);
+		grafo.AgregarArista(0, 1, 5);
+		grafo.AgregarArista(1, 2, 3);
+		grafo.AgregarArista(2, 3, 1);
+		grafo.AgregarArista(0, 3, 10);
         
 		GrafoDirTDA<Integer> grafoResultante = FloydDinamica.floyd(grafo);
 		
-		// FALTA IMPRIMIR EL RESULTADO
+		Integer verticeOrigen = 0;
+		
+		FloydDinamica.imprimirGrafo(grafoResultante, verticeOrigen);
 		
         this.volver();		
 	}
@@ -194,6 +220,27 @@ public class MainProgram {
         ArrayList<Integer> ruta = new ArrayList<Integer>();
         
         ViajeroFuerzaBruta.encontrarMejorRuta(ruta, lista);
+       
+        this.volver();
+	}
+	
+	private void algoritmoViajanteOtro() {
+		
+		System.out.println();
+		System.out.println("Algoritmo del Viajante: implementacion por fuerza bruta (otro)");
+		System.out.println("------------------------------------------------------------");
+		System.out.println("Costos del viaje:");
+		System.out.println("------------------------------------------------------------");
+		
+		TravelingSalesman salesman = new TravelingSalesman(10, random);
+		
+		salesman.printCosts();
+		
+		System.out.println("------------------------------------------------------------");
+		System.out.println("Corriendo el algoritmo:");
+		System.out.println("------------------------------------------------------------");
+		TravelingSalesmanBruteForce bruteForce = new TravelingSalesmanBruteForce(salesman);
+		bruteForce.run();
        
         this.volver();
 	}
