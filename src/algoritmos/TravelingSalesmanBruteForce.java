@@ -2,50 +2,50 @@ package algoritmos;
 
 public class TravelingSalesmanBruteForce implements Runnable {
 
-	private TravelingSalesman salesman;
+	private Viajero salesman;
 	
 	private double minCosts;
 	
-	private int[] minRoute;
+	private int[] minRuta;
 	
-	private long count;
+	private long contador;
 	
-	public TravelingSalesmanBruteForce(TravelingSalesman salesman){
+	public TravelingSalesmanBruteForce(Viajero salesman){
 		this.salesman = salesman;
 	}
 
 	public void run() {
-		int[] route = new int[salesman.n];
-		minRoute = new int[salesman.n];
+		int[] ruta = new int[salesman.n];
+		minRuta = new int[salesman.n];
 		
 		minCosts = -1;
 		
-		count = 0;
+		contador = 0;
 		
-		route[0] = 0;//first city always zero
+		ruta[0] = 0;//first city always zero
 		
 		for(int i = 1;i < salesman.n;i++){
-			route[1] = i;
-			checkRoute(route,2);
+			ruta[1] = i;
+			checkRuta(ruta,2);
 		}
 		
-		System.out.println("Brute force results count: "+count+", minimum cost: "+minCosts+", route: ");
-		salesman.printRoute(minRoute);		
+		System.out.println("Resultado de Fuerza Bruta contador: "+contador+", Costo Minimo: "+minCosts+", ruta: ");
+		salesman.printRuta(minRuta);		
 	}
 	
-	private void checkRoute(int[] route, int offset){
+	private void checkRuta(int[] ruta, int offset){
 		
 		if(offset == salesman.n){
-			count++;
+			contador++;
 			
-			if(count%100000 == 0){
-				System.out.println("check route "+count);
+			if(contador%100000 == 0){
+				System.out.println("Ruta Chequeada "+contador);
 			}
 			
-			double cost = salesman.calculateCosts(route);
+			double cost = salesman.calcularCosto(ruta);
 			if(minCosts < 0 || cost < minCosts){
 				minCosts = cost;
-				System.arraycopy(route,0,minRoute,0,route.length);
+				System.arraycopy(ruta,0,minRuta,0,ruta.length);
 			}
 			
 			return;
@@ -53,13 +53,13 @@ public class TravelingSalesmanBruteForce implements Runnable {
 		
 		loop: for(int i = 1;i<salesman.n;i++){
 			for(int j = 0;j<offset;j++){
-				if(route[j] == i){
+				if(ruta[j] == i){
 					continue loop;
 				}
 			}
 			
-			route[offset] = i;
-			checkRoute(route,offset+1);
+			ruta[offset] = i;
+			checkRuta(ruta,offset+1);
 		}
 	}
 }

@@ -232,9 +232,9 @@ public class MainProgram {
 		System.out.println("Costos del viaje:");
 		System.out.println("------------------------------------------------------------");
 		
-		TravelingSalesman salesman = new TravelingSalesman(10, random);
+		Viajero salesman = new Viajero(10, random);
 		
-		salesman.printCosts();
+		salesman.printCosto();
 		
 		System.out.println("------------------------------------------------------------");
 		System.out.println("Corriendo el algoritmo:");
