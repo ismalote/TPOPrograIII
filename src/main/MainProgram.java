@@ -1,9 +1,7 @@
 package main;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Random;
+import java.util.*;
 
 import Implementaciones.*;
 import TDA.*;
@@ -14,7 +12,6 @@ public class MainProgram {
 	public final static int RANDOM_SEED = 1234;
 	
 	public static Random random = new Random(RANDOM_SEED);
-	
 	
 	public static void main(String[] args) {
 		MainProgram main = new MainProgram();
@@ -49,10 +46,8 @@ public class MainProgram {
 		System.out.println("TPO PROGRAMACION III - GRUPO: LA BARBA DE GODIO");
 		System.out.println("------------------------------------------------------------");
 		System.out.println("1.- Algoritmo de Floyd: implementacion de backtracking");
-		System.out.println("2.- Algoritmo de Floyd: implementacion dinamica");
-		System.out.println("3.- Algoritmo de Floyd: implementacion dinamica con matrices");
-		System.out.println("4.- Algoritmo del Viajante: implementacion por fuerza bruta");
-		System.out.println("5.- Algoritmo del Viajante: implementacion por fuerza bruta (otro)");
+		System.out.println("2.- Algoritmo de Floyd: implementacion dinamica con matrices");
+		System.out.println("3.- Algoritmo del Viajante: implementacion por fuerza bruta (otro)");
 		System.out.println("Q.- Salir");
 		System.out.println("------------------------------------------------------------");
 		System.out.print("Opcion: ");
@@ -71,15 +66,7 @@ public class MainProgram {
 			  		break;
 			  	}
 			  	case '3' : {
-			  		this.algoritmoFloydDinamicaMatriz();
-			  		break;
-			  	}
-			  	case '4' : {
 			  		this.algoritmoViajante();
-			  		break;
-			  	}
-			  	case '5' : {
-			  		this.algoritmoViajanteOtro();
 			  		break;
 			  	}
 			  	case 'Q': 
@@ -137,49 +124,11 @@ public class MainProgram {
 		
         this.volver();		
 	}
-	
+
 	private void algoritmoFloydDinamica() {
 		
 		System.out.println();
 		System.out.println("Algoritmo de Floyd: implementacion dinamica");
-		System.out.println("------------------------------------------------------------");
-		System.out.println("Grafo de ejemplo:");
-		System.out.println("      10");
-		System.out.println(" (0)------->(3)");
-		System.out.println("  |         /|\\");
-		System.out.println("5 |          |");
-		System.out.println("  |          | 1");
-		System.out.println(" \\|/         |");
-		System.out.println(" (1)------->(2)");
-		System.out.println("       3");
-		System.out.println("------------------------------------------------------------");
-		
-		
-		GrafoDirTDA<Integer> grafo = new GrafoDir<Integer>();
-
-		grafo.InicializarGrafo();
-		grafo.AgregarVertice(0);
-		grafo.AgregarVertice(1);
-		grafo.AgregarVertice(2);
-		grafo.AgregarVertice(3);
-		grafo.AgregarArista(0, 1, 5);
-		grafo.AgregarArista(1, 2, 3);
-		grafo.AgregarArista(2, 3, 1);
-		grafo.AgregarArista(0, 3, 10);
-        
-		GrafoDirTDA<Integer> grafoResultante = FloydDinamica.floyd(grafo);
-		
-		Integer verticeOrigen = 0;
-		
-		FloydDinamica.imprimirGrafo(grafoResultante, verticeOrigen);
-		
-        this.volver();		
-	}
-	
-	private void algoritmoFloydDinamicaMatriz() {
-		
-		System.out.println();
-		System.out.println("Algoritmo de Floyd: implementacion dinamica con matrices");
 		System.out.println("------------------------------------------------------------");
 		System.out.println("Grafo de ejemplo:");
 		System.out.println("      10");
@@ -203,44 +152,24 @@ public class MainProgram {
 	     
 	     this.volver();
 	}
-	
+
 	private void algoritmoViajante() {
-	
+		
 		System.out.println();
 		System.out.println("Algoritmo del Viajante: implementacion por fuerza bruta");
-		System.out.println("------------------------------------------------------------");
-		System.out.println("Muestra con 6 ciudades y todas las rutas posibles");
-		System.out.println("------------------------------------------------------------");
-		
-        ArrayList<Integer> lista = new ArrayList<Integer>();
-        for (int i = 0; i < 6; ++i) {
-        	lista.add(i);
-        }
-        
-        ArrayList<Integer> ruta = new ArrayList<Integer>();
-        
-        ViajeroFuerzaBruta.encontrarMejorRuta(ruta, lista);
-       
-        this.volver();
-	}
-	
-	private void algoritmoViajanteOtro() {
-		
-		System.out.println();
-		System.out.println("Algoritmo del Viajante: implementacion por fuerza bruta (otro)");
 		System.out.println("------------------------------------------------------------");
 		System.out.println("Costos del viaje:");
 		System.out.println("------------------------------------------------------------");
 		
-		Viajero salesman = new Viajero(10, random);
+		Viajero viajero = new Viajero(10, random);
 		
-		salesman.printCosto();
+		viajero.imprimirCosto();
 		
 		System.out.println("------------------------------------------------------------");
 		System.out.println("Corriendo el algoritmo:");
 		System.out.println("------------------------------------------------------------");
-		TravelingSalesmanBruteForce bruteForce = new TravelingSalesmanBruteForce(salesman);
-		bruteForce.run();
+		ViajeroFuerzaBruta fuerzaBruta = new ViajeroFuerzaBruta(viajero);
+		fuerzaBruta.run();
        
         this.volver();
 	}

@@ -1,40 +1,66 @@
 package algoritmos;
 
-import java.util.*;
+public class ViajeroFuerzaBruta implements Runnable {
 
-public final class ViajeroFuerzaBruta {
+	private Viajero viajero;
 	
-    private static ArrayList<Integer> mejorRuta;
+	private double minCosto;
+	
+	private int[] minRuta;
+	
+	private long contador;
+	
+	public ViajeroFuerzaBruta(Viajero viajero){
+		this.viajero = viajero;
+	}
 
-    public static void encontrarMejorRuta
-        (ArrayList<Integer> r, ArrayList<Integer> ciudadesFueraDeRuta)
-    {
-        if(!ciudadesFueraDeRuta.isEmpty())
-        {
-            for(int i = 0; i < ciudadesFueraDeRuta.size(); i++)
-            {
-                Integer removida = (Integer) ciudadesFueraDeRuta.remove(0);
-                @SuppressWarnings("unchecked")
-				ArrayList<Integer> nuevaRuta = (ArrayList<Integer>) r.clone();
-                nuevaRuta.add(removida);
-
-                encontrarMejorRuta(nuevaRuta, ciudadesFueraDeRuta);
-                ciudadesFueraDeRuta.add(removida);
-            }
-        }
-        else 
-        {
-            if(esMejorRuta(r))
-                mejorRuta = r;
-        }
-
-    }
-
-    private static boolean esMejorRuta(ArrayList<Integer> r) {
-        System.out.println(r.toString());
-        return false;
-    }
+	public void run() {
+		int[] ruta = new int[viajero.n];
+		minRuta = new int[viajero.n];
+		
+		minCosto = -1;
+		
+		contador = 0;
+		
+		ruta[0] = 0;	//la primera ciudad es siempre 0
+		
+		for(int i = 1; i < viajero.n; i++){
+			ruta[1] = i;
+			chequearRuta(ruta, 2);
+		}
+		
+		System.out.println("Resultado de Fuerza Bruta - contador: " + contador + ", Costo Minimo: " + minCosto + ", ruta: ");
+		viajero.imprimirRuta(minRuta);		
+	}
+	
+	private void chequearRuta(int[] ruta, int offset) {
+		
+		if(offset == viajero.n){
+			contador++;
+			
+			if(contador % 100000 == 0){
+				System.out.println("Ruta Chequeada " + contador);
+			}
+			
+			double costo = viajero.calcularCosto(ruta);
+			if(minCosto < 0 || costo < minCosto){
+				minCosto = costo;
+				System.arraycopy(ruta, 0, minRuta, 0, ruta.length);
+			}
+			
+			return;
+		}
+		
+		loop: for(int i = 1; i < viajero.n; i++){
+			for(int j = 0; j < offset; j++){
+				if(ruta[j] == i){
+					continue loop;
+				}
+			}
+			
+			ruta[offset] = i;
+			chequearRuta(ruta, offset + 1);
+		}
+	}
 }
-
-
 

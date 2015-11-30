@@ -19,10 +19,9 @@ public class Viajero {
 		
 		for (int i = 0; i < coordenadas.length; i++) {
 
-			//we ignore the case that two cities have the same coordenadas - it should work anyway?
-			
-			coordenadas[i][0] =Math.abs(random.nextInt()%MAP_SIZE); 
-			coordenadas[i][1] =Math.abs(random.nextInt()%MAP_SIZE); 
+			// Se ignora el caso de 2 ciudades con las mismas coordenadas	
+			coordenadas[i][0] = Math.abs(random.nextInt() % MAP_SIZE); 
+			coordenadas[i][1] = Math.abs(random.nextInt() % MAP_SIZE); 
 		}
 		
 		return coordenadas;
@@ -47,61 +46,59 @@ public class Viajero {
 		costosPorCoordenadas();
 	}
 	
-		
-	/*	
-	 * create costo matrix by creating coordenadas for cities and using flight distance as cost
-	 * however, the algorithm is more general than that, arbitrary cost matrices should work, even unsymmetric ones
-	 */
+
+	// Se crea la matriz de costo al crear coordenadas para las ciudades y usando la distancia de vuelo como costo.
+	// Sin embargo, el algoritmo es más general; matrices de costos arbitrarios deberian funcionar, incluso las asimetricas
 	private void costosPorCoordenadas() {
-		for(int i = 0;i<coordenadas.length;i++){
-			for(int j = 0;j<coordenadas.length;j++){
-				costo[i][j] = calcularCostodeViajeentreCiudades(i,j);
+		for(int i = 0; i < coordenadas.length; i++) {
+			for(int j = 0; j < coordenadas.length; j++) {
+				costo[i][j] = calcularCostoDeViajeEntreCiudades(i, j);
 			}
 		}
 	}
 
-	private double calcularCostodeViajeentreCiudades(int i, int j){
-		int dx = coordenadas[i][0]-coordenadas[j][0];
-		int dy = coordenadas[i][1]-coordenadas[j][1];
+	private double calcularCostoDeViajeEntreCiudades(int i, int j) {
+		int dx = coordenadas[i][0] - coordenadas[j][0];
+		int dy = coordenadas[i][1] - coordenadas[j][1];
 		
-		return Math.sqrt(dx*dx+dy*dy);//pythagoras
+		return Math.sqrt(dx * dx + dy * dy);    //Pitagoras
 	}
 
 	public double calcularCosto(int[] ruta){
 		return calcularCosto(ruta, false);
 	}
 	
-	public double calcularCosto(int[] ruta, boolean isVerbose){
+	public double calcularCosto(int[] ruta, boolean detallado) {
 		
-		double CostodeViaje = 0;
+		double costoDeViaje = 0;
 		for (int i = 1; i < ruta.length; i++) {
-			CostodeViaje += costo[ruta[i-1]][ruta[i]]; 
+			costoDeViaje += costo[ruta[i-1]][ruta[i]]; 
 			
-			if(isVerbose){
-				System.out.println("costo desde "+ruta[i-1]+" hasta "+ruta[i]+": "+costo[ruta[i-1]][ruta[i]]);
+			if (detallado) {
+				System.out.println("costo desde " + ruta[i - 1] + " hasta " + ruta[i] + ": " + costo[ruta[i-1]][ruta[i]]);
 			}
 			
 		}
 
-		//return to starting city
-		CostodeViaje += costo[ruta[n-1]][ruta[0]];
-		if(isVerbose){
-			System.out.println("costo desde "+ruta[n-1]+" hasta "+ruta[0]+": "+costo[ruta[n-1]][ruta[0]]);
+		// volver a la ciudad de origen
+		costoDeViaje += costo[ruta[n-1]][ruta[0]];
+		if(detallado){
+			System.out.println("costo desde "+ruta[n - 1]+" hasta " + ruta[0] + ": " + costo[ruta[n-1]][ruta[0]]);
 		}
-		return CostodeViaje;
+		return costoDeViaje;
 	}
 	
-	public void printRuta(int[] ruta){
-		for(int i = 0;i<ruta.length;i++){
-			System.out.print(ruta[i]+" ");
+	public void imprimirRuta(int[] ruta) {
+		for(int i = 0; i < ruta.length; i++){
+			System.out.print(ruta[i] + " ");
 		}
 	}
 	
-	public void printCosto(){
-		System.out.println("matriz de costo para el problema del viajante de comercio :");
-		for(int i = 0;i<costo.length;i++){
-			for(int j = 0;j<costo[i].length;j++){
-				System.out.print(costo[i][j]+" ");
+	public void imprimirCosto() {
+		System.out.println("matriz de costo para el problema del viajante de comercio: ");
+		for(int i = 0; i < costo.length; i++) {
+			for(int j = 0; j < costo[i].length; j++) {
+				System.out.print(costo[i][j] + " ");
 			}
 			System.out.print("\n");
 		}
