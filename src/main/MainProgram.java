@@ -11,6 +11,9 @@ public class MainProgram {
 	
 	public final static int RANDOM_SEED = 1234;
 	
+	static int globalMejorDist = Integer.MAX_VALUE;
+			static ArrayList<String> mejorCamino = new ArrayList<String>();
+	
 	public static Random random = new Random(RANDOM_SEED);
 	
 	public static void main(String[] args) {
@@ -102,7 +105,7 @@ public class MainProgram {
 		System.out.println("       3");
 		System.out.println("------------------------------------------------------------");
 				
-		GrafoTDA<Integer> grafo = new Grafo<Integer>();
+		GrafoDirTDA<Integer> grafo = new GrafoDir<Integer>();
 		grafo.InicializarGrafo();
 		grafo.AgregarVertice(0);
 		grafo.AgregarVertice(1);
@@ -117,7 +120,7 @@ public class MainProgram {
 		int destino = 3;
 		int escalas = 4;
 		
-		int caminoMasCorto = FloydBacktracking.floyd(grafo, origen, destino, escalas);
+		int caminoMasCorto = FloydBacktracking.FloydBT(grafo, origen, destino, escalas);
 		
 		System.out.printf("El camino mas corto entre el vertice %d y el vertice %d es %d.\n", 
 							origen, destino, caminoMasCorto);
@@ -141,16 +144,15 @@ public class MainProgram {
 		System.out.println("       3");
 		System.out.println("------------------------------------------------------------");
 		
+		int grafo[][] = { {0,   5,  FloydDinamica.INF, 10},
+						{FloydDinamica.INF, 0,   3, FloydDinamica.INF},
+	                    {FloydDinamica.INF, FloydDinamica.INF, 0,   1},
+	                    {FloydDinamica.INF, FloydDinamica.INF, FloydDinamica.INF, 0}
+	                    };
 		
-	     int grafo[][] = { {0,   5,  FloydDinamica.INF, 10},
-	                       {FloydDinamica.INF, 0,   3, FloydDinamica.INF},
-	                       {FloydDinamica.INF, FloydDinamica.INF, 0,   1},
-	                       {FloydDinamica.INF, FloydDinamica.INF, FloydDinamica.INF, 0}
-	                     };
-	     
-	     FloydDinamica.floydMatrices(grafo);
-	     
-	     this.volver();
+		FloydDinamica.floydMatrices(grafo);
+		
+	    this.volver();
 	}
 
 	private void algoritmoViajante() {
@@ -173,7 +175,7 @@ public class MainProgram {
        
         this.volver();
 	}
-	
+
 	private void volver()
 	{ 
 		System.out.println();
