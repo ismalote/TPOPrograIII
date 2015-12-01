@@ -22,17 +22,13 @@ public class MainProgram {
 		main.mostrarOpciones();
 	}
 
-	private void mostrarLogo() {
-	
-		File f = new File("resources/barbaGodio.txt");
-		
-		try (Scanner scanner = new Scanner(f)) {
-	        
+	private void mostrarLogo() {	
+		File f = new File("resources/barbaGodio.txt");		
+		try (Scanner scanner = new Scanner(f)) {	        
     		while (scanner.hasNextLine()) {
     			String line = scanner.nextLine();
     			System.out.println(line);
     		}
-
     		scanner.close();
 		}
 		catch (Exception e) {
@@ -42,15 +38,15 @@ public class MainProgram {
 	}
 	
 	private void mostrarOpciones() {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));		
 		//Imprimo menu de opciones
 		System.out.println();
 		System.out.println("TPO PROGRAMACION III - GRUPO: LA BARBA DE GODIO");
+		System.out.println();
 		System.out.println("------------------------------------------------------------");
-		System.out.println("1.- Algoritmo de Floyd: implementacion de backtracking");
-		System.out.println("2.- Algoritmo de Floyd: implementacion dinamica con matrices");
-		System.out.println("3.- Algoritmo del Viajante: implementacion por fuerza bruta (otro)");
+		System.out.println("1.- Algoritmo de Floyd: Implementacion de Backtracking");
+		System.out.println("2.- Algoritmo de Floyd: Implementacion Dinamica con Matrices");
+		System.out.println("3.- Algoritmo del Viajante: Implementacion por Fuerza Bruta");
 		System.out.println("Q.- Salir");
 		System.out.println("------------------------------------------------------------");
 		System.out.print("Opcion: ");
@@ -86,8 +82,7 @@ public class MainProgram {
 		catch (Exception e)
 		{
 			e.printStackTrace();
-		}
-		
+		}		
 	}
 	
 	private void algoritmoFloydBacktracking() {
@@ -158,20 +153,23 @@ public class MainProgram {
 	private void algoritmoViajante() {
 		
 		System.out.println();
-		System.out.println("Algoritmo del Viajante: implementacion por fuerza bruta");
 		System.out.println("------------------------------------------------------------");
-		System.out.println("Costos del viaje:");
+		System.out.println("Algoritmo del Viajante: Implementacion por Fuerza Bruta");
+		System.out.println("------------------------------------------------------------");
+		System.out.println();
+		System.out.println("------------------------------------------------------------");
+		System.out.println("Matriz de Costos de Viajes entre Ciudades:");
 		System.out.println("------------------------------------------------------------");
 		
-		Viajero viajero = new Viajero(10, random);
+		Viajero viajero = new Viajero(4, random);
 		
-		viajero.imprimirCosto();
+		viajero.imprimirMatrizDeCostosEntreCiudades();
 		
 		System.out.println("------------------------------------------------------------");
-		System.out.println("Corriendo el algoritmo:");
+		System.out.println("Corriendo el Algoritmo:");
 		System.out.println("------------------------------------------------------------");
 		ViajeroFuerzaBruta fuerzaBruta = new ViajeroFuerzaBruta(viajero);
-		fuerzaBruta.run();
+		fuerzaBruta.EjecutarFuerzaBruta();
        
         this.volver();
 	}
